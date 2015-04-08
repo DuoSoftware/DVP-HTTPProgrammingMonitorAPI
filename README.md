@@ -1,4 +1,3 @@
-DVP-HTTPProgrammingMonitorAPI
-=============================
+﻿# DuoVoiceAPIRequestServer
 
-HTTP programming API monitor service
+
