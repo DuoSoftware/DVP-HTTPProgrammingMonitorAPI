@@ -32,7 +32,10 @@ RestServer.listen(8085, function () {
         }
         else
         {
-            console.log(res.name);
+           //console.log(JSON.parse(res[0]).name);
+
+            console.log(JSON.parse(ViewArray[0]).name);
+
 
         }
     })
@@ -46,7 +49,8 @@ RestServer.use(restify.queryParser());
 
 
 var index =0;
-var ResultArray=new Array();
+var ViewArray=[];
+
 function GetRealtimeCallsCountOfVoiceApp(AppID,callback)
 {
     client.get(AppID,function(err,result)
@@ -93,24 +97,18 @@ function LiveDEVDataViewer(AppID,callback)
         }
         else
         {
-            for (var i= 0;i<result.length;i++)
+            AddToArray(result,function(error,Status)
             {
-                client.get(result[i]+"_DEV",function(errz,res)
+                if(error)
                 {
-                    if(errz)
-                    {
-                        console.log('Error in getting details '+result[indx].toString());
-
-                    }
-                    else
-                    {
-
-
-                        console.log(JSON.parse(res).name);
-
-                    }
-                });
-            }
+                    callback(error,undefined);
+                }
+                else
+                {
+                    console.log(ViewArray);
+                    callback(undefined,true);
+                }
+            })
 
 
         }
@@ -151,6 +149,40 @@ function LiveDataViewer(AppID,callback)
         }
 
     })
+}
+
+function AddToArray(ResultArray,callback)
+{
+    var len=ResultArray.length;
+    var count =0;
+
+    for(var i=0;i<len;i++)
+    {
+        client.get(ResultArray[i]+"_DEV",function(err,res) {
+
+            if (err)
+            {
+                callback(err, false);
+            }
+            else
+            {
+
+                if (count < len)
+                {
+                    ViewArray.push(res);
+                    count++
+
+                    if (count >= len)
+                    {
+                        callback(undefined, true);
+                    }
+                }
+                else {
+                    callback(err, false);
+                }
+            }
+        })
+    }
 }
 
 module.exports.GetRealtimeCallsCountOfVoiceApp = GetRealtimeCallsCountOfVoiceApp;
