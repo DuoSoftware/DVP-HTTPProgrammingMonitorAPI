@@ -32,7 +32,7 @@ RestServer.listen(8085, function () {
         }
         else
         {
-           //console.log(JSON.parse(res[0]).name);
+            //console.log(JSON.parse(res[0]).name);
 
             console.log(JSON.parse(ViewArray[0]).name);
 
@@ -151,37 +151,61 @@ function LiveDataViewer(AppID,callback)
     })
 }
 
-function AddToArray(ResultArray,callback)
-{
-    var len=ResultArray.length;
-    var count =0;
-
-    for(var i=0;i<len;i++)
+function AddToArray(ResultArray,Cat,callback) {
+    var len = ResultArray.length;
+    var count = 0;
+    if (Cat == "_DEV")
     {
-        client.get(ResultArray[i]+"_DEV",function(err,res) {
+        for (var i = 0; i < len; i++) {
+            client.get(ResultArray[i] + "_DEV", function (err, res) {
 
-            if (err)
-            {
-                callback(err, false);
-            }
-            else
-            {
-
-                if (count < len)
-                {
-                    ViewArray.push(res);
-                    count++
-
-                    if (count >= len)
-                    {
-                        callback(undefined, true);
-                    }
-                }
-                else {
+                if (err) {
                     callback(err, false);
                 }
+                else {
+
+                    if (count < len) {
+                        ViewArray.push(res);
+                        count++
+
+                        if (count >= len) {
+                            callback(undefined, true);
+                        }
+                    }
+                    else {
+                        callback(err, false);
+                    }
+                }
+            })
+        }
+    }
+    else
+    {
+        if(Cat=="_DATA")
+        {
+            for (var i = 0; i < len; i++) {
+                client.get(ResultArray[i] + "_DATA", function (err, res) {
+
+                    if (err) {
+                        callback(err, false);
+                    }
+                    else {
+
+                        if (count < len) {
+                            ViewArray.push(res);
+                            count++
+
+                            if (count >= len) {
+                                callback(undefined, true);
+                            }
+                        }
+                        else {
+                            callback(err, false);
+                        }
+                    }
+                })
             }
-        })
+        }
     }
 }
 
