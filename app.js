@@ -3,6 +3,8 @@ var restify = require('restify');
 var redis = require('redis');
 var config = require('config');
 
+var ErrorMonitor=require('./ErrorMonitor.js');
+
 
 var redisClient = redis.createClient(config.Redis.port,config.Redis.ip);
 redisClient.on('error',function(err){
@@ -262,5 +264,71 @@ server.get('/API/developerinfo/:version/:account/:number', function (req, res, n
      res.send(204);
      return next();
  });
+
+
+
+//................................................PAWAN......................................................
+
+//////////////////////////////////////////////////////Get Error Records of Application////////////////////////////////
+server.get('DVP/:version/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRecordsOfApplication/:AppID/:Company/:Tenent',function(req,res,next)
+{
+    ErrorMonitor.GetAllErrorRecordsOfApplication(req.params.AppID,req.params.Company,req.params.Tenent,function(err,Rec)
+    {
+        if(err)
+        {
+            res.end(err);
+        }
+        else
+        {
+            res.end(Rec);
+        }
+    })
+    return next();
+});
+
+
+//////////////////////////////////////////////////////Get Error Records of Application by Error Code////////////////////////////////
+
+server.get('DVP/:version/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRecordsOfApplicationByErrorCode/:AppID/:ECode/:Company/:Tenent',function(req,res,next)
+{
+    ErrorMonitor.GetAllErrorRecordsOfApplicationByErrorCode(req.params.AppID,req.params.ECode,req.params.Company,req.params.Tenent,function(err,Rec)
+    {
+        if(err)
+        {
+            res.end(err);
+        }
+        else
+        {
+            res.end(Rec);
+        }
+    })
+    return next();
+});
+
+//////////////////////////////////////////////////////Get Error Records of Application by Company////////////////////////////////
+
+server.get('DVP/:version/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRecordsOfApplicationByCompany/:AppID/:Company',function(req,res,next)
+{
+    ErrorMonitor.GetAllErrorRecordsOfApplicationByErrorCode(req.params.AppID,req.params.Company,function(err,Rec)
+    {
+        if(err)
+        {
+            res.end(err);
+        }
+        else
+        {
+            res.end(Rec);
+        }
+    })
+    return next();
+});
+
+
+
+
+
+
+
+
 
 process.stdin.resume();
