@@ -4,6 +4,7 @@ var redis = require('redis');
 var config = require('config');
 
 var ErrorMonitor=require('./ErrorMonitor.js');
+var VoiceActivityFlow=require('./VoiceActivityFlow.js');
 
 
 var redisClient = redis.createClient(config.Redis.port,config.Redis.ip);
@@ -324,7 +325,23 @@ server.get('DVP/:version/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRecor
 });
 
 
+//////////////////////////////////////////////////////Get All VoiceApp Activities By SessionID////////////////////////////////
 
+server.get('DVP/:version/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRecordsOfApplicationByCompany/:Company/:Tenent/:SID',function(req,res,next)
+{
+    VoiceActivityFlow.GetAllVoiceAppActivitiesBySessionID(req.params.Company,req.params.Tenent,req.params.SID,function(err,Rec)
+    {
+        if(err)
+        {
+            res.end(err);
+        }
+        else
+        {
+            res.end(Rec);
+        }
+    })
+    return next();
+});
 
 
 
