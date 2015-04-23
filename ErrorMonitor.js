@@ -23,7 +23,7 @@ function GetAllErrorRecordsOfApplication(AppID,Company,Tenent,callback)
                 {
                     try
                     {
-                        DbConn.ApplicationErrors.find({where:[{VoiceAppID:AppID},{CompanyId:Company},{TenantId:Tenent}]}).complete(function(errVE,ErrObj)
+                        DbConn.ApplicationErrors.findAll({where:[{VoiceAppID:AppID},{CompanyId:Company},{TenantId:Tenent}]}).complete(function(errVE,ErrObj)
                         {
                            if(errVE)
                            {
