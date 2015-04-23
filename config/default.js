@@ -23,6 +23,18 @@ HTTPServer : {
 
 LBServer : {
     path: 'http://localhost:8086/'
+    },
+
+"DB": {
+        "Type":"postgres",
+        "User":"duo",
+        "Password":"DuoS123",
+        "Port":5432,
+        "Host":"127.0.0.1",
+        "Database":"dvpdb"
+    },
+    "Types":{
+        "Type":"DEV_API"
     }
 
 };
