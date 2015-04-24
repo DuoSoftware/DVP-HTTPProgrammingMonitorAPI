@@ -21,6 +21,9 @@ module.exports = {
         "domain": "HOST_IP",
         "port": "HOST_PORT",
         "version":"HOST_VERSION"
+    },
+    "Types":{
+        "Type":"DEV_API"
     }
 };
 
