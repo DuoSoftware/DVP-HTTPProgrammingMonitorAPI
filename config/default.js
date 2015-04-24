@@ -48,7 +48,7 @@ module.exports = {
 
     "Host":
     {
-        "domain": "localhost",
+        "domain": "0.0.0.0",
         "port": "8080",
         "version":"6.0"
     }

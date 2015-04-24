@@ -4,7 +4,7 @@
 
 var restify = require('restify');
 var stringify=require('stringify');
-var DbConn = require('./DVP-DBModels');
+var DbConn = require('DVP-DBModels');
 
 
 function SaveErrors(ErrObj,callback)
