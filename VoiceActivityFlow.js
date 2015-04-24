@@ -5,7 +5,7 @@
 var restify = require('restify');
 var stringify=require('stringify');
 var DbConn = require('DVP-DBModels');
-
+var confg=require('config');
 
 
 
@@ -13,7 +13,7 @@ function GetAllVoiceAppActivitiesBySessionID(Company,Tenent,SID,callback)
 {
     try
     {
-        DbConn.DVPEvent.findAll({where:[{CompanyId:Company},{TenantId:Tenent},{EventData:SID},{EventType:Type}]}).complete(function (err, result) {
+        DbConn.DVPEvent.findAll({where:[{CompanyId:Company},{TenantId:Tenent},{EventData:SID},{EventType:config.Types.Type}]}).complete(function (err, result) {
 
             if(err)
             {
