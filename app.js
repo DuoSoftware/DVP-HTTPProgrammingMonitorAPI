@@ -4,6 +4,7 @@ var redis = require('redis');
 var config = require('config');
 
 var port = config.Host.port || 3000;
+var version=config.Host.version;
 var Rport=config.Redis.port;
 var ip=config.Redis.ip;
 
@@ -33,20 +34,20 @@ server.listen(port);
 
 
  /////////////////////////////////////////////////////////create resource/////////////////////////
- server.put('/API/call/:version/:account/:guid/:action', send);
- server.put('/API/dialer/:version/:account/:action', send);
- server.put('/API/conference/:version/:account/:action', send);
+ server.put('/API/call/'+version+'/:account/:guid/:action', send);
+ server.put('/API/dialer/'+version+'/:account/:action', send);
+ server.put('/API/conference/'+version+'/:account/:action', send);
 
 
  ////////////////////////////////////////////////////////modify resource//////////////////////////
- server.post('/API/call/:version/:account/:guid/:action', function actionmodify(req, res, next) {
+ server.post('/API/call/'+version+'/:account/:guid/:action', function actionmodify(req, res, next) {
    res.send(201, Math.random().toString(36).substr(3, 8));
    return next();
  });
 
 
  /////////////////////////////////////////////////////get resource details//////////////////////////
- server.get('/API/livecall/all/:version/:account/:number', function (req, res, next) {
+ server.get('/API/livecall/all/'+version+'/:account/:number', function (req, res, next) {
 
 
      ////////////////////////validate accountID////////////////////////////////////////////////////////
@@ -99,7 +100,7 @@ server.listen(port);
 
 ////////////////////////////////////////////////////////////get command data/////////////////////////////////
 
-server.get('/API/livecall/flowinfo/:version/:account/:guid', function (req, res, next) {
+server.get('/API/livecall/flowinfo/'+version+'/:account/:guid', function (req, res, next) {
 
 
      ////////////////////////validate accountID////////////////////////////////////////////////////////
@@ -153,7 +154,7 @@ server.get('/API/livecall/flowinfo/:version/:account/:guid', function (req, res,
 
 ////////////////////////////////////////////////////////////get error data/////////////////////////////////////
 
-server.get('/API/developerinfo/:version/:account/:number', function (req, res, next) {
+server.get('/API/developerinfo/'+version+'/:account/:number', function (req, res, next) {
 
 
      ////////////////////////validate accountID////////////////////////////////////////////////////////
@@ -204,7 +205,7 @@ server.get('/API/developerinfo/:version/:account/:number', function (req, res, n
 
 
  
- server.get('/API/livecall/calldata/:version/:account/:guid', function (req, res, next) {
+ server.get('/API/livecall/calldata/'+version+'/:account/:guid', function (req, res, next) {
 
       ////////////////////////validate accountID////////////////////////////////////////////////////////
 
@@ -262,7 +263,7 @@ server.get('/API/developerinfo/:version/:account/:number', function (req, res, n
  
 
  //////////////////////////////////////////////////////delete resource////////////////////////////////
- server.del('/API/developerinfo/:version/:account/:number', function rm(req, res, next) {
+ server.del('/API/developerinfo/'+version+'/:account/:number', function rm(req, res, next) {
 
      var number = req.params.number;
      redisClient.del(number + "_error", redis.print);
@@ -275,7 +276,7 @@ server.get('/API/developerinfo/:version/:account/:number', function (req, res, n
 //................................................PAWAN......................................................
 
 //////////////////////////////////////////////////////Get Error Records of Application////////////////////////////////
-server.get('DVP/:version/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRecordsOfApplication/:AppID/:Company/:Tenent',function(req,res,next)
+server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRecordsOfApplication/:AppID/:Company/:Tenent',function(req,res,next)
 {
     ErrorMonitor.GetAllErrorRecordsOfApplication(req.params.AppID,req.params.Company,req.params.Tenent,function(err,Rec)
     {
@@ -294,7 +295,7 @@ server.get('DVP/:version/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRecor
 
 //////////////////////////////////////////////////////Get Error Records of Application by Error Code////////////////////////////////
 
-server.get('DVP/:version/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRecordsOfApplicationByErrorCode/:AppID/:ECode/:Company/:Tenent',function(req,res,next)
+server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRecordsOfApplicationByErrorCode/:AppID/:ECode/:Company/:Tenent',function(req,res,next)
 {
     ErrorMonitor.GetAllErrorRecordsOfApplicationByErrorCode(req.params.AppID,req.params.ECode,req.params.Company,req.params.Tenent,function(err,Rec)
     {
@@ -312,7 +313,7 @@ server.get('DVP/:version/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRecor
 
 //////////////////////////////////////////////////////Get Error Records of Application by Company////////////////////////////////
 
-server.get('DVP/:version/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRecordsOfApplicationByCompany/:AppID/:Company',function(req,res,next)
+server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRecordsOfApplicationByCompany/:AppID/:Company',function(req,res,next)
 {
     ErrorMonitor.GetAllErrorRecordsOfApplicationByErrorCode(req.params.AppID,req.params.Company,function(err,Rec)
     {
@@ -331,7 +332,7 @@ server.get('DVP/:version/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRecor
 
 //////////////////////////////////////////////////////Get All VoiceApp Activities By SessionID////////////////////////////////
 
-server.get('DVP/:version/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRecordsOfApplicationByCompany/:Company/:Tenent/:SID',function(req,res,next)
+server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRecordsOfApplicationByCompany/:Company/:Tenent/:SID',function(req,res,next)
 {
     VoiceActivityFlow.GetAllVoiceAppActivitiesBySessionID(req.params.Company,req.params.Tenent,req.params.SID,function(err,Rec)
     {

@@ -1,31 +1,31 @@
-module.exports = { 
-  Freeswitch : {
-  ip: 'localhost',
-  port: 8021,
-  password: 'devadmin'
-  },
-
- WebAPI : {
-      domain: '192.168.1.58',
-      port: 80,
-      path: '/CSRequestWebApi/api/'
-      },
-
-Redis : {
-    ip: 'localhost',
-    port: 6379
+module.exports = {
+    Freeswitch : {
+        ip: 'localhost',
+        port: 8021,
+        password: 'devadmin'
     },
 
-HTTPServer : {
-    port: 8085
+    WebAPI : {
+        domain: '192.168.1.58',
+        port: 80,
+        path: '/CSRequestWebApi/api/'
+    },
+
+    Redis : {
+        ip: 'localhost',
+        port: 6379
+    },
+
+    HTTPServer : {
+        port: 8085
     },
 
 
-LBServer : {
-    path: 'http://localhost:8086/'
+    LBServer : {
+        path: 'http://localhost:8086/'
     },
 
-"DB": {
+    "DB": {
         "Type":"postgres",
         "User":"duo",
         "Password":"DuoS123",
@@ -35,6 +35,22 @@ LBServer : {
     },
     "Types":{
         "Type":"DEV_API"
+    },
+
+
+
+    "Redis":
+    {
+        "ip": "192.168.3.200",
+        "port": "6379"
+
+    },
+
+    "Host":
+    {
+        "domain": "localhost",
+        "port": "8080",
+        "version":"6.0"
     }
 
 };
