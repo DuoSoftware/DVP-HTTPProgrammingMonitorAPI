@@ -3,6 +3,10 @@ var restify = require('restify');
 var redis = require('redis');
 var config = require('config');
 
+var port = config.Host.port || 3000;
+var Rport=config.Redis.port;
+var ip=config.Redis.ip;
+
 var ErrorMonitor=require('./ErrorMonitor.js');
 var VoiceActivityFlow=require('./VoiceActivityFlow.js');
 
@@ -16,7 +20,7 @@ redisClient.on('error',function(err){
 /////////////////////////////////////////////////////////////////////
 var server = restify.createServer();
 server.use(restify.fullResponse()).use(restify.bodyParser());
-server.listen(config.HTTPServer.port);
+server.listen(port);
 
 ////////////////////////////////////////////////////////////////////
 

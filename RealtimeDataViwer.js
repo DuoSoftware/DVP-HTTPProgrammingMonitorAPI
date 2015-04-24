@@ -6,7 +6,11 @@ var restify = require('restify');
 var stringify=require('stringify');
 var redis=require('redis');
 
-var client = redis.createClient(6379,"localhost");
+var config = require('config');
+var Rport=config.Redis.port;
+var ip=config.Redis.ip;
+var port = config.Host.port || 3000;
+var client = redis.createClient(Rport,ip);
 client.on("error", function (err) {
     console.log("Error " + err);
 
@@ -20,7 +24,7 @@ var RestServer = restify.createServer({
 
 });
 //Server listen
-RestServer.listen(8085, function () {
+RestServer.listen(port, function () {
     console.log('%s listening at %s', RestServer.name, RestServer.url);
 
     LiveDEVDataViewer('APP0012',function(err,res)

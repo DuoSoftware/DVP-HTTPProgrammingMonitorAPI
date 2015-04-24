@@ -1,16 +1,25 @@
 {
-  "name": "DuoVoiceAPIRequestServer",
-  "version": "0.0.0",
-  "description": "DuoVoiceAPIRequestServer",
+  "name": "DVP-HTTPProgrammingMonitorAPI",
+  "version": "1.0.0",
+  "description": "",
   "main": "app.js",
-  "author": {
-    "name": "Administrator",
-    "email": ""
-  },
   "dependencies": {
-    "restify": "~2.7.0",
-    "redis": "~0.10.1",
-    "colors": "~0.6.2",
-    "config": "~0.4.35"
-  }
+    "redis": "^0.10.3",
+    "stringify": "^3.1.0",
+    "restify": "^2.7.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DuoSoftware/DVP-HTTPProgrammingMonitorAPI.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DuoSoftware/DVP-HTTPProgrammingMonitorAPI/issues"
+  },
+  "homepage": "https://github.com/DuoSoftware/DVP-HTTPProgrammingMonitorAPI"
 }
