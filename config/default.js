@@ -11,6 +11,10 @@ module.exports = {
     "Types":{
         "Type":"DEV_API"
     },
+    "Class":{
+        "EventClass":"APP"
+    },
+
 
 
 

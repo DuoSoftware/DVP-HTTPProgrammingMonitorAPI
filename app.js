@@ -21,7 +21,10 @@ redisClient.on('error',function(err){
 /////////////////////////////////////////////////////////////////////
 var server = restify.createServer();
 server.use(restify.fullResponse()).use(restify.bodyParser());
-server.listen(port);
+server.listen(port,function()
+{
+    console.log(port);
+});
 
 ////////////////////////////////////////////////////////////////////
 
@@ -348,8 +351,47 @@ server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRe
     return next();
 });
 
+//////////////////////////////////////////////////////Get All VoiceApp Activities By EventCatagory////////////////////////////////
 
+server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllVoiceAppActivitiesByEventCatagory/:Company/:Tenent/:ECAT',function(req,res,next)
+{
+    VoiceActivityFlow.GetAllVoiceAppActivitiesByEventCatagory(req.params.Company,req.params.Tenent,req.params.ECAT,function(err,Rec)
+    {
+        if(err)
+        {
+            res.end(err);
+        }
+        else
+        {
+            res.end(Rec);
+        }
+    })
+    return next();
+});
 
+/*
+//////////////////////////////////////////////////////Get All VoiceApp Activities By BetweenEventTimes////////////////////////////////
+
+server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllVoiceAppActivitiesBetweenEventTimes/:Company/:Tenent/:ECAT/:DTO/:DTT)',function(req,res,next)
+{
+    console.log(new Date(Date.parse(req.params.DTO)));
+    console.log(new Date(Date.parse(req.params.DTT)));
+    VoiceActivityFlow.GetAllVoiceAppActivitiesBetweenEventTimes(req.params.Company,req.params.Tenent,req.params.ECAT,req.params.DTO,req.params.DTT,function(err,Rec)
+    {
+        if(err)
+        {
+            res.send(err);
+            res.end();
+        }
+        else
+        {
+            res.send(Rec);
+            res.end();
+        }
+    })
+    return next();
+});
+*/
 
 
 
