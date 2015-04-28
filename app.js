@@ -45,7 +45,7 @@ function send(req, res, next) {
 //pawan
 //Alert services
 
-redisClient.on('pmessage', function (pattern, MsgTyp, message) {
+redisClient.on('pmessage', function (pattern,MsgTyp, message) {
 
 
     var Jobj=JSON.parse(message);
@@ -60,7 +60,7 @@ redisClient.on('pmessage', function (pattern, MsgTyp, message) {
             }
             else
             {
-                Mailer.AlertSender(res,'Application Upload Notification','Your new application '+Jobj.DisplayName+ ' is successfully uploaded and Application ID will be '+APPID,function(errAlert,ResAlert)
+                Mailer.AlertSender(res,'Application Upload Notification','Your new application '+Jobj.DisplayName+ ' is successfully uploaded and Application ID will be '+Jobj.APPID,function(errAlert,ResAlert)
                 {
                     if(errAlert)
                     {

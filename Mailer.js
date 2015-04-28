@@ -60,7 +60,13 @@ function GetAppDeveloperMail(AppID,callback)
         }
         else
         {
-            callback(undefined,result.Email);
+            if(result) {
+                callback(undefined, result.AppDeveloper.Email);
+            }
+            else
+            {
+                callback("Null returned", undefined);
+            }
         }
     });
 }
