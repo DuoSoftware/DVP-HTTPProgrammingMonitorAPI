@@ -4,12 +4,14 @@
   "description": "",
   "main": "AlertSubscriber.js",
   "dependencies": {
-    "config": "^1.13.0",
-    "DVP-Common": "^0.0.0",
-    "DVP-DBModels": "^0.0.0",
+
     "redis": "^0.10.3",
+    "config": "^1.13.0",
+    "stringify": "^3.1.0",
     "restify": "^2.8.5",
-    "stringify": "^3.1.0"
+    "DVP-Common": "DuoSoftware/DVP-Common",
+    "DVP-DBModels": "DuoSoftware/DVP-DBModels"
+
   },
   "devDependencies": {},
   "scripts": {
