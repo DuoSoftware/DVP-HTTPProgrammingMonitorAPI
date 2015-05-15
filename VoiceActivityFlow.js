@@ -6,49 +6,58 @@ var restify = require('restify');
 var stringify=require('stringify');
 var DbConn = require('./DVP-DBModels');
 var config=require('config');
+var logger = require('DVP-Common/LogHandler/CommonLogHandler.js').logger;
 
 
 
-function GetAllVoiceAppActivitiesBySessionID(Company,Tenent,SID,callback)
+function GetAllVoiceAppActivitiesBySessionID(Company,Tenant,SID,reqId,callback)
 {
     try
     {
+        logger.debug('[DVP-HTTPProgrammingMonitorAPI.ErrorMonitor.GetAllVoiceAppActivitiesBySessionID] - [%s] -  Searching Application activities by SessionID %s - Company : %s and Tenant : %s',reqId,SID,Company,Tenant);
         DbConn.DVPEvent.findAll({where:[{CompanyId:Company},{EventClass:config.Types.Class},{TenantId:Tenent},{EventData:SID},{EventType:config.Types.Type}]}).complete(function (err, result) {
 
             if(err)
             {
+                logger.error('[DVP-HTTPProgrammingMonitorAPI.ErrorMonitor.GetAllVoiceAppActivitiesBySessionID] - [%s] - [PGSQL] - Error occurred while searching Application Activities of SessionId %s ',reqId,SID,err);
                 callback(err,undefined);
             }
             else
             {
+                logger.debug('[DVP-HTTPProgrammingMonitorAPI.ErrorMonitor.GetAllVoiceAppActivitiesBySessionID] - [%s] - [PGSQL] - Records found of session ID %s ',reqId,SID);
+
                 callback(undefined,JSON.stringify(result));
             }
         })
     }
     catch(ex)
     {
+        logger.error('[DVP-HTTPProgrammingMonitorAPI.ErrorMonitor.GetAllVoiceAppActivitiesBySessionID] - [%s] - [PGSQL] - Exception occurred while searching activities of sessionID %s ',reqId,SID,ex);
         callback(ex,undefined);
     }
 }
 
-function GetAllVoiceAppActivitiesByEventCatagory(Company,Tenent,Ecat,callback)
+function GetAllVoiceAppActivitiesByEventCatagory(Company,Tenant,Ecat,reqId,callback)
 {
     try
     {
-        DbConn.DVPEvent.findAll({where:[{CompanyId:Company},{TenantId:Tenent},{EventClass:config.Types.Class},{EventCategory:Ecat},{EventType:config.Types.Type}]}).complete(function (err, result) {
+        DbConn.DVPEvent.findAll({where:[{CompanyId:Company},{TenantId:Tenant},{EventClass:config.Types.Class},{EventCategory:Ecat},{EventType:config.Types.Type}]}).complete(function (err, result) {
 
             if(err)
             {
+                logger.error('[DVP-HTTPProgrammingMonitorAPI.ErrorMonitor.GetAllVoiceAppActivitiesByEventCatagory] - [%s] - [PGSQL] - Error occurred while searching Application Activities of Event Category %s ',reqId,Ecat,err);
                 callback(err,undefined);
             }
             else
             {
+                logger.debug('[DVP-HTTPProgrammingMonitorAPI.ErrorMonitor.GetAllVoiceAppActivitiesBySessionID] - [%s] - [PGSQL] - Activity records found of Event Category %s ',reqId,Ecat);
                 callback(undefined,JSON.stringify(result));
             }
         })
     }
     catch(ex)
     {
+        logger.error('[DVP-HTTPProgrammingMonitorAPI.ErrorMonitor.GetAllVoiceAppActivitiesBySessionID] - [%s] - [PGSQL] - Exception occurred while searching activities of EventCatagory %s ',reqId,Ecat,ex);
         callback(ex,undefined);
     }
 }

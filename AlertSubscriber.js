@@ -6,6 +6,7 @@ var redis=require('redis');
 var DbConn = require('DVP-DBModels');
 var config = require('config');
 var Mailer=require('./Mailer.js');
+var logger = require('DVP-Common/LogHandler/CommonLogHandler.js').logger;
 
 var redisClient = redis.createClient(ip,port);
 client.on("error", function (err) {
