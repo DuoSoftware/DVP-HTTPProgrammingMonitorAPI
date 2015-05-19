@@ -518,7 +518,7 @@ server.del('/API/developerinfo/'+version+'/:account/:number', function rm(req, r
 
 //////////////////////////////////////////////////////Get Error Records of Application////////////////////////////////
 //server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRecordsOfApplication/:AppID/:Company/:Tenent',function(req,res,next)
-server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRecordsOfApplication/:AppID/:Company/:Tenant',function(req,res,next)
+server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/ErrorRecordsOfApplication/:AppID/:Company/:Tenant',function(req,res,next)
 {
     var reqId='';
 
@@ -548,7 +548,7 @@ server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRe
 
 //////////////////////////////////////////////////////Get Error Records of Application by Error Code////////////////////////////////
 
-server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRecordsOfApplicationByErrorCode/:AppID/:ECode/:Company/:Tenent',function(req,res,next)
+server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/ErrorRecordsOfApplication/:AppID/ByErrorCode/:ECode/:Company/:Tenent',function(req,res,next)
 {
     var reqId='';
 
@@ -584,7 +584,7 @@ server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRe
 //////////////////////////////////////////////////////Get Error Records of Application by Company////////////////////////////////
 
 //server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRecordsOfApplicationByCompany/:AppID/:Company',function(req,res,next)
-server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRecordsOfApplicationsByCompany/:AppID/:Company',function(req,res,next)
+server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/ErrorRecordsOfApplications/:AppID/ByCompany/:Company',function(req,res,next)
 {
     var reqId='';
 
@@ -619,7 +619,7 @@ server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRe
 //////////////////////////////////////////////////////Get All VoiceApp Activities By SessionID////////////////////////////////
 
 //server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRecordsOfApplicationByCompany/:Company/:Tenent/:SID',function(req,res,next)
-server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllVoiceAppActivitiesBySessionID/:Company/:Tenant/:SID',function(req,res,next)
+server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/VoiceAppActivitiesBySessionID/:SID/:Company/:Tenant',function(req,res,next)
 {
     var reqId='';
 
@@ -655,7 +655,7 @@ server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllVoiceAp
 //////////////////////////////////////////////////////Get All VoiceApp Activities By EventCatagory////////////////////////////////
 
 //server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllVoiceAppActivitiesByEventCatagory/:Company/:Tenent/:ECAT',function(req,res,next)
-server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllVoiceAppActivitiesByEventCatagory/:Company/:Tenant/:ECAT',function(req,res,next)
+server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/VoiceAppActivitiesByEventCatagory/:ECAT/:Company/:Tenant',function(req,res,next)
 {
     var reqId='';
 
