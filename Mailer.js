@@ -22,7 +22,7 @@ var transporter = nodemailer.createTransport({
 
 function AlertSender(To,Subject,body,reqId,callback)
 {
-    logger.debug('[DVP-HTTPProgrammingMonitorAPI.Mailer.AlertSender] - [%s] - [MAIL] - AlertSender starts :  ',reqId);
+    logger.debug('[DVP-HTTPProgrammingMonitorAPI.AlertSender] - [%s] - [MAIL] - AlertSender starts :  ',reqId);
     var mailOptions = {
         from: 'Duo Voice', // sender address
         to: To, // list of receivers
@@ -30,25 +30,25 @@ function AlertSender(To,Subject,body,reqId,callback)
         text: body // plaintext body
         // html body
     };
-    logger.debug('[DVP-HTTPProgrammingMonitorAPI.Mailer.AlertSender] - [%s] - [MAIL] - Mail options %s :  ',reqId,JSON.stringify(mailOptions));
+    logger.debug('[DVP-HTTPProgrammingMonitorAPI.AlertSender] - [%s] - [MAIL] - Mail options %s :  ',reqId,JSON.stringify(mailOptions));
     try {
 
 
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
                 //console.log(error);
-                logger.error('[DVP-HTTPProgrammingMonitorAPI.Mailer.AlertSender] - [%s] - [MAIL] - Mail sending failed %s :  ',reqId,error);
+                logger.error('[DVP-HTTPProgrammingMonitorAPI.AlertSender] - [%s] - [MAIL] - Mail sending failed %s :  ',reqId,error);
                 callback(err, undefined);
             } else {
                 //console.log('Message sent: ' + info.response);
-                logger.debug('[DVP-HTTPProgrammingMonitorAPI.Mailer.AlertSender] - [%s] - [MAIL] - Mail sending succeeded %s :  ',reqId,info.response);
+                logger.debug('[DVP-HTTPProgrammingMonitorAPI.AlertSender] - [%s] - [MAIL] - Mail sending succeeded %s :  ',reqId,info.response);
                 callback(undefined, info.response);
             }
         });
     }
     catch(ex)
     {
-        logger.error('[DVP-HTTPProgrammingMonitorAPI.Mailer.AlertSender] - [%s] - [MAIL] - Exception occurred while stating mail sending function   :  ',reqId,ex);
+        logger.error('[DVP-HTTPProgrammingMonitorAPI.AlertSender] - [%s] - [MAIL] - Exception occurred while stating mail sending function   :  ',reqId,ex);
         callback(ex, undefined);
     }
 
@@ -56,24 +56,24 @@ function AlertSender(To,Subject,body,reqId,callback)
 
 function GetAppDeveloperMail(AppID,reqId,callback)
 {
-    logger.debug('[DVP-HTTPProgrammingMonitorAPI.Mailer.GetAppDeveloperMail] - [%s]  - Application Developer mail selection starts for Application:  %s',reqId,AppID);
+    logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAppDeveloperMail] - [%s]  - Application Developer mail selection starts for Application:  %s',reqId,AppID);
     try {
         DbConn.Application.find({
             where: {id: AppID},
             include: [{model: DbConn.AppDeveloper, as: "AppDeveloper"}]
         }).complete(function (err, result) {
             if (err) {
-                logger.error('[DVP-HTTPProgrammingMonitorAPI.Mailer.GetAppDeveloperMail] - [%s]  - Error occurred while searching Developer Mail of the Application:  %s',reqId,AppID,err);
+                logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAppDeveloperMail] - [%s]  - Error occurred while searching Developer Mail of the Application:  %s',reqId,AppID,err);
 
                 callback(err, undefined);
             }
             else {
                 if (result) {
-                    logger.debug('[DVP-HTTPProgrammingMonitorAPI.Mailer.GetAppDeveloperMail] - [%s]  - Developer Mail of the Application:  %s found',reqId,JSON.stringify(result));
+                    logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAppDeveloperMail] - [%s]  - Developer Mail of the Application:  %s found',reqId,JSON.stringify(result));
                     callback(undefined, result.AppDeveloper.Email);
                 }
                 else {
-                    logger.error('[DVP-HTTPProgrammingMonitorAPI.Mailer.GetAppDeveloperMail] - [%s]  - No Developer Mail of the Application:  %s found',reqId,AppID);
+                    logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAppDeveloperMail] - [%s]  - No Developer Mail of the Application:  %s found',reqId,AppID);
                     callback("Null returned", undefined);
                 }
             }
@@ -81,7 +81,7 @@ function GetAppDeveloperMail(AppID,reqId,callback)
     }
     catch(ex)
     {
-        logger.error('[DVP-HTTPProgrammingMonitorAPI.Mailer.GetAppDeveloperMail] - [%s]  - Exception occurred when starting Developer mail service',reqId,ex);
+        logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAppDeveloperMail] - [%s]  - Exception occurred when starting Developer mail service',reqId,ex);
     }
 }
 

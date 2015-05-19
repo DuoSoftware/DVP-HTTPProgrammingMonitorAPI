@@ -14,17 +14,17 @@ function GetAllVoiceAppActivitiesBySessionID(Company,Tenant,SID,reqId,callback)
 {
     try
     {
-        logger.debug('[DVP-HTTPProgrammingMonitorAPI.ErrorMonitor.GetAllVoiceAppActivitiesBySessionID] - [%s] -  Searching Application activities by SessionID %s - Company : %s and Tenant : %s',reqId,SID,Company,Tenant);
+        logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllVoiceAppActivitiesBySessionID] - [%s] -  Searching Application activities by SessionID %s - Company : %s and Tenant : %s',reqId,SID,Company,Tenant);
         DbConn.DVPEvent.findAll({where:[{CompanyId:Company},{EventClass:config.Types.Class},{TenantId:Tenent},{EventData:SID},{EventType:config.Types.Type}]}).complete(function (err, result) {
 
             if(err)
             {
-                logger.error('[DVP-HTTPProgrammingMonitorAPI.ErrorMonitor.GetAllVoiceAppActivitiesBySessionID] - [%s] - [PGSQL] - Error occurred while searching Application Activities of SessionId %s ',reqId,SID,err);
+                logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllVoiceAppActivitiesBySessionID] - [%s] - [PGSQL] - Error occurred while searching Application Activities of SessionId %s ',reqId,SID,err);
                 callback(err,undefined);
             }
             else
             {
-                logger.debug('[DVP-HTTPProgrammingMonitorAPI.ErrorMonitor.GetAllVoiceAppActivitiesBySessionID] - [%s] - [PGSQL] - Records found of session ID %s ',reqId,SID);
+                logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllVoiceAppActivitiesBySessionID] - [%s] - [PGSQL] - Records found of session ID %s ',reqId,SID);
 
                 callback(undefined,JSON.stringify(result));
             }
@@ -32,7 +32,7 @@ function GetAllVoiceAppActivitiesBySessionID(Company,Tenant,SID,reqId,callback)
     }
     catch(ex)
     {
-        logger.error('[DVP-HTTPProgrammingMonitorAPI.ErrorMonitor.GetAllVoiceAppActivitiesBySessionID] - [%s] - [PGSQL] - Exception occurred while searching activities of sessionID %s ',reqId,SID,ex);
+        logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllVoiceAppActivitiesBySessionID] - [%s] - [PGSQL] - Exception occurred while searching activities of sessionID %s ',reqId,SID,ex);
         callback(ex,undefined);
     }
 }
@@ -45,19 +45,19 @@ function GetAllVoiceAppActivitiesByEventCatagory(Company,Tenant,Ecat,reqId,callb
 
             if(err)
             {
-                logger.error('[DVP-HTTPProgrammingMonitorAPI.ErrorMonitor.GetAllVoiceAppActivitiesByEventCatagory] - [%s] - [PGSQL] - Error occurred while searching Application Activities of Event Category %s ',reqId,Ecat,err);
+                logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllVoiceAppActivitiesByEventCatagory] - [%s] - [PGSQL] - Error occurred while searching Application Activities of Event Category %s ',reqId,Ecat,err);
                 callback(err,undefined);
             }
             else
             {
-                logger.debug('[DVP-HTTPProgrammingMonitorAPI.ErrorMonitor.GetAllVoiceAppActivitiesBySessionID] - [%s] - [PGSQL] - Activity records found of Event Category %s ',reqId,Ecat);
+                logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllVoiceAppActivitiesBySessionID] - [%s] - [PGSQL] - Activity records found of Event Category %s ',reqId,Ecat);
                 callback(undefined,JSON.stringify(result));
             }
         })
     }
     catch(ex)
     {
-        logger.error('[DVP-HTTPProgrammingMonitorAPI.ErrorMonitor.GetAllVoiceAppActivitiesBySessionID] - [%s] - [PGSQL] - Exception occurred while searching activities of EventCatagory %s ',reqId,Ecat,ex);
+        logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllVoiceAppActivitiesBySessionID] - [%s] - [PGSQL] - Exception occurred while searching activities of EventCatagory %s ',reqId,Ecat,ex);
         callback(ex,undefined);
     }
 }
