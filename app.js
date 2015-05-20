@@ -531,17 +531,29 @@ server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/ErrorRecordsO
 
     }
     logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplication] - [%s] - [HTTP]  - Request received -  Data - Application : %s of Company : %s and Tenant : %s',reqId,req.params.AppID,req.params.Company,req.params.Tenant);
-    ErrorMonitor.GetAllErrorRecordsOfApplication(req.params.AppID,req.params.Company,req.params.Tenent,reqId,function(err,Rec)
+
+    try
     {
-        if(err)
-        {
-            res.end(err);
-        }
-        else
-        {
-            res.end(Rec);
-        }
-    });
+        ErrorMonitor.GetAllErrorRecordsOfApplication(req.params.AppID, req.params.Company, req.params.Tenent, reqId, function (err, Rec) {
+            if (err) {
+                var jsonString = messageFormatter.FormatMessage(err, "ERROR/EXCEPTION", false, undefined);
+                logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplication] - [%s] - Request response : %s ', reqId, jsonString);
+                res.end(jsonString);
+            }
+            else {
+                var jsonString = messageFormatter.FormatMessage(undefined, "SUCCESS", true, Rec);
+                logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplication] - [%s] - Request response : %s ', reqId, jsonString);
+                res.end(jsonString);
+            }
+        });
+    }
+    catch(ex)
+    {
+        logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplication] - [%s] - [HTTP]  - Exception in Request  -  Data - Application : %s of Company : %s and Tenant : %s',reqId,req.params.AppID,req.params.Company,req.params.Tenant,ex);
+        var jsonString = messageFormatter.FormatMessage(ex, "EXCEPTION", false, undefined);
+        logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplication] - [%s] - Request response : %s ',reqId,jsonString);
+        res.end(jsonString);
+    }
     return next();
 });
 
@@ -566,16 +578,23 @@ server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/ErrorRecordsO
     {
         ErrorMonitor.GetAllErrorRecordsOfApplicationByErrorCode(req.params.AppID, req.params.ECode, req.params.Company, req.params.Tenent, function (err, Rec) {
             if (err) {
-                res.end(err);
+                var jsonString = messageFormatter.FormatMessage(err, "ERROR/EXCEPTION", false, undefined);
+                logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationByErrorCode] - [%s] - Request response : %s ', reqId, jsonString);
+                res.end(jsonString);
             }
             else {
-                res.end(Rec);
+                var jsonString = messageFormatter.FormatMessage(undefined, "SUCCESS", true, Rec);
+                logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationByErrorCode] - [%s] - Request response : %s ', reqId, jsonString);
+                res.end(jsonString);
             }
         });
     }
     catch(ex)
     {
         logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationByErrorCode] - [%s] - [HTTP]  - Exception occurred when starting service : GetAllErrorRecordsOfApplicationByErrorCode -  Data - Application : %s of Company : %s and Tenant : %s and ErrorCode : %s',reqId,req.params.AppID,req.params.Company,req.params.Tenant,req.params.ECode,ex);
+        var jsonString = messageFormatter.FormatMessage(ex, "EXCEPTION", false, undefined);
+        logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationByErrorCode] - [%s] - Request response : %s ', reqId, jsonString);
+        res.end(jsonString);
     }
 
     return next();
@@ -601,16 +620,24 @@ server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/ErrorRecordsO
         ErrorMonitor.GetAllErrorRecordsOfApplicationByCompany(req.params.Company,reqId, function (err, Rec) {
             if (err)
             {
-                res.end(err);
+                var jsonString = messageFormatter.FormatMessage(err, "ERROR/EXCEPTION", false, undefined);
+                logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationsByCompany] - [%s] - Request response : %s ', reqId, jsonString);
+                res.end(jsonString);
             }
             else {
-                res.end(Rec);
+
+                var jsonString = messageFormatter.FormatMessage(undefined, "SUCCESS", true, Rec);
+                logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationsByCompany] - [%s] - Request response : %s ', reqId, jsonString);
+                res.end(jsonString);
             }
         });
     }
     catch(ex)
     {
         logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationsByCompany] - [%s] - [HTTP]  - Exception occurred when starting service : GetAllErrorRecordsOfApplicationByErrorCode -  Data -  Company : %s ',reqId,req.params.Company,ex);
+        var jsonString = messageFormatter.FormatMessage(ex, "EXCEPTION", false, undefined);
+        logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationsByCompany] - [%s] - Request response : %s ', reqId, jsonString);
+        res.end(jsonString);
     }
     return next();
 });
@@ -638,16 +665,23 @@ server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/VoiceAppActiv
             if (err)
             {
 
-                res.end(err);
+                var jsonString = messageFormatter.FormatMessage(err, "ERROR/EXCEPTION", false, undefined);
+                logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllVoiceAppActivitiesBySessionID] - [%s] - Request response : %s ', reqId, jsonString);
+                res.end(jsonString);
             }
             else {
-                res.end(Rec);
+                var jsonString = messageFormatter.FormatMessage(undefined, "EXCEPTION", true, Rec);
+                logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllVoiceAppActivitiesBySessionID] - [%s] - Request response : %s ', reqId, jsonString);
+                res.end(jsonString);
             }
         });
     }
     catch(ex)
     {
         logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllVoiceAppActivitiesBySessionID] - [%s] - [HTTP]  - Exception occurred when starting service : GetAllVoiceAppActivitiesBySessionID -  Data -  Company : %s Tenant : %s SessionID : %s',reqId,req.params.Company,req.params.Tenant,req.params.SID,ex);
+        var jsonString = messageFormatter.FormatMessage(ex, "EXCEPTION", false, undefined);
+        logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllVoiceAppActivitiesBySessionID] - [%s] - Request response : %s ', reqId, jsonString);
+        res.end(jsonString);
     }
     return next();
 });
@@ -672,16 +706,23 @@ server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/VoiceAppActiv
         VoiceActivityFlow.GetAllVoiceAppActivitiesByEventCatagory(req.params.Company, req.params.Tenent, req.params.ECAT,reqId,function (err, Rec) {
             if (err)
             {
-                res.end(err);
+                var jsonString = messageFormatter.FormatMessage(err, "ERROR/EXCEPTION", false, undefined);
+                logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllVoiceAppActivitiesByEventCatagory] - [%s] - Request response : %s ', reqId, jsonString);
+                res.end(jsonString);
             }
             else {
-                res.end(Rec);
+                var jsonString = messageFormatter.FormatMessage(undefined, "SUCCESS", true, Rec);
+                logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllVoiceAppActivitiesByEventCatagory] - [%s] - Request response : %s ', reqId, jsonString);
+                res.end(jsonString);
             }
         });
     }
     catch(ex)
     {
-        logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllVoiceAppActivitiesBySessionID] - [%s] - [HTTP]  - Exception occurred when starting service : GetAllVoiceAppActivitiesBySessionID -  Data -  Company : %s Tenant : %s catagory : %s',reqId,req.params.Company,req.params.Tenant,req.params.ECAT,ex);
+        logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllVoiceAppActivitiesByEventCatagory] - [%s] - [HTTP]  - Exception occurred when starting service : GetAllVoiceAppActivitiesBySessionID -  Data -  Company : %s Tenant : %s catagory : %s',reqId,req.params.Company,req.params.Tenant,req.params.ECAT,ex);
+        var jsonString = messageFormatter.FormatMessage(ex, "EXCEPTION", false, undefined);
+        logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllVoiceAppActivitiesByEventCatagory] - [%s] - Request response : %s ', reqId, jsonString);
+        res.end(jsonString);
     }
     return next();
 });
@@ -706,7 +747,8 @@ function GetErrorCount(AppID,reqId,callback)
     }
     catch(ex)
     {
-
+        logger.debug('[DVP-HTTPProgrammingMonitorAPI.ErrorCount] - [%s]  - Exception in method starting : GetErrorCount of Application %s',reqId,AppID,JSON.stringify(ErrObj),ex);
+        callback(ex,undefined);
     }
 }
 
