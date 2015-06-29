@@ -13,32 +13,44 @@ function GetAllErrorRecordsOfApplication(AppID,Company,Tenant,reqId,callback)
     try
     {
         logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplication] - [%s] -  Searching All Error Records Of Application %s -  Data - Application : %s of Company : %s and Tenant : %s',reqId,AppID,Company,Tenant);
-        DbConn.Application.find({where:[{id:AppID}]}).complete(function(err,AppObj)
+        DbConn.Application.find({where:[{id:AppID}]}).complete(function(errApp,resApp)
         {
-            if(err)
+            if(errApp)
             {
-                logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplication] - [%s] - [PGSQL] - Error occurred while searching Application %s ',reqId,AppID,err);
-                callback(err,undefined);
+                logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplication] - [%s] - [PGSQL] - Error occurred while searching Application %s ',reqId,AppID,errApp);
+                callback(errApp,undefined);
             }
             else
             {
 
-                if(AppObj.CompanyId==Company && AppObj.TenantId==Tenant)
+                if(resApp.CompanyId==Company && resApp.TenantId==Tenant)
                 {
                     logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplication] - [%s] - [PGSQL] - Company and Tenant is matched for received Application details %s ',reqId,AppID);
                     try
                     {
-                        DbConn.ApplicationErrors.findAll({where:[{VoiceAppID:AppID},{CompanyId:Company},{TenantId:Tenant}]}).complete(function(errVE,ErrObj)
+                        DbConn.ApplicationErrors.findAll({where:[{VoiceAppID:AppID},{CompanyId:Company},{TenantId:Tenant}]}).complete(function(errAppErr,resAppErr)
                         {
-                           if(errVE)
+                           if(errAppErr)
                            {
-                               logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplication] - [%s] - [PGSQL] - Error occurred while searching Errors of Application %s ',reqId,AppID,errVE);
-                               callback(errVE,undefined);
+                               logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplication] - [%s] - [PGSQL] - Error occurred while searching Errors of Application %s ',reqId,AppID,errAppErr);
+                               callback(errAppErr,undefined);
                            }
                             else
                            {
-                               logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplication] - [%s] - [PGSQL] - Errors found for Application %s Successfully',reqId,AppID);
-                               callback(undefined,JSON.stringify(ErrObj));
+                               if(resAppErr)
+                               {
+                                   logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplication] - [%s] - [PGSQL] - Errors found for Application %s ',reqId,AppID);
+
+                                   callback(undefined,resAppErr);
+                               }
+                               else
+                               {
+                                   logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplication] - [%s] - [PGSQL] - No Errors found for Application %s ',reqId,AppID);
+
+                                   callback(new Error("No Error record found"),undefined);
+                               }
+
+
                            }
                         });
                     }
@@ -51,7 +63,7 @@ function GetAllErrorRecordsOfApplication(AppID,Company,Tenant,reqId,callback)
                 else
                 {
                     logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplication] - [%s] - [PGSQL] - Company and Tenant is not matched for received Application details %s ',reqId,AppID);
-                    callback("Illegal Access ",undefined);
+                    callback(new Error("Illegal Access "),undefined);
                 }
             }
         })
@@ -69,31 +81,40 @@ function GetAllErrorRecordsOfApplicationByErrorCode(AppID,ECode,Company,Tenant,r
     try
     {
         logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationByErrorCode] - [%s] -  Searching All Error Records Of Application %s  by Error Code %s -  Data - Application : %s of Company : %s and Tenant : %s',reqId,AppID,ECode,Company,Tenant);
-        DbConn.Application.find({where:[{id:AppID}]}).complete(function(err,AppObj)
+        DbConn.Application.find({where:[{id:AppID}]}).complete(function(errApp,resApp)
         {
-            if(err)
+            if(errApp)
             {
-                logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationByErrorCode] - [%s] - [PGSQL] - Error occurred while searching Application %s ',reqId,AppID,err);
-                callback(err,undefined);
+                logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationByErrorCode] - [%s] - [PGSQL] - Error occurred while searching Application %s ',reqId,AppID,errApp);
+                callback(errApp,undefined);
             }
             else
             {
-                if(AppObj.CompanyId==Company && AppObj.TenantId==Tenant)
+                if(resApp.CompanyId==Company && resApp.TenantId==Tenant)
                 {
                     logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationByErrorCode] - [%s] - [PGSQL] - Company and Tenant is matched for received Application details %s ',reqId,AppID);
                     try
                     {
-                        DbConn.ApplicationErrors.find({where:[{VoiceAppID:AppID},{CompanyId:Company},{TenantId:Tenant},{Code:ECode}]}).complete(function(errVE,ErrObj)
+                        DbConn.ApplicationErrors.find({where:[{VoiceAppID:AppID},{CompanyId:Company},{TenantId:Tenant},{Code:ECode}]}).complete(function(errAppErr,resAppErr)
                         {
-                            if(errVE)
+                            if(errAppErr)
                             {
-                                logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationByErrorCode] - [%s] - [PGSQL] - Error occurred while searching Errors of Application %s with ErrorCode %s',reqId,AppID,ECode,errVE);
-                                callback(errVE,undefined);
+                                logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationByErrorCode] - [%s] - [PGSQL] - Error occurred while searching Errors of Application %s with ErrorCode %s',reqId,AppID,ECode,errAppErr);
+                                callback(errAppErr,undefined);
                             }
                             else
                             {
-                                logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplication] - [%s] - [PGSQL] - Errors found for Application %s with ErrorCode %s',reqId,AppID,ECode);
-                                callback(undefined,JSON.stringify(ErrObj));
+                                if(resAppErr)
+                                {
+                                    logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplication] - [%s] - [PGSQL] - Errors found for Application %s with ErrorCode %s',reqId,AppID,ECode);
+                                    callback(undefined,resAppErr);
+                                }
+                                else
+                                {
+                                    logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplication] - [%s] - [PGSQL] - No Errors found for Application %s with ErrorCode %s',reqId,AppID,ECode);
+                                    callback(new Error("No Error record found"),undefined);
+                                }
+
                             }
                         });
                     }
@@ -106,7 +127,7 @@ function GetAllErrorRecordsOfApplicationByErrorCode(AppID,ECode,Company,Tenant,r
                 else
                 {
                     logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplication] - [%s] - [PGSQL] - Exception occurred when starts GetAllErrorRecordsOfApplication %s ErrorCode %s',reqId,AppID,ECode,ex);
-                    callback("Illegal Access ",undefined);
+                    callback(new Error("Illegal Access "),undefined);
                 }
             }
         })
@@ -121,64 +142,35 @@ function GetAllErrorRecordsOfApplicationByErrorCode(AppID,ECode,Company,Tenant,r
 
 function GetAllErrorRecordsOfApplicationByCompany(Company,reqId,callback)
 {
-      //logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationByCompany] - [%s] -  Searching All Application Error Records Of Company %s  ',reqId,Company);
-       /* DbConn.Application.find({where:[{id:AppID}]}).complete(function(err,AppObj)
-        {
-            if(err)
-            {
-                logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationByCompany] - [%s] - [PGSQL] - Company and Tenant is matched for received Application details %s ',reqId,AppID);
-                callback(err,undefined);
-            }
-            else
-            {
-                if(AppObj.CompanyId==Company)
-                {
-                    try
-                    {
-                        DbConn.ApplicationErrors.find({where:[{VoiceAppID:AppID},{CompanyId:Company}]}).complete(function(errVE,ErrObj)
-                        {
-                            if(errVE)
-                            {
-                                callback(errVE,undefined);
-                            }
-                            else
-                            {
-                                callback(undefined,JSON.stringify(ErrObj));
-                            }
-                        });
-                    }
-                    catch(ex)
-                    {
-                        callback(ex,undefined);
-                    }
-                }
-                else
-                {
-                    callback("Illegal Access ",undefined);
-                }
-            }
-        })
-        */
+
         try
         {
-            logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationByCompany] - [%s] -  Searching All Application Error Records Of Company %s  ',reqId,Company);
-            DbConn.ApplicationErrors.find({where:[{CompanyId:Company}]}).complete(function(errVE,ErrObj)
+            logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationByCompany] - [%s] -  Searching All Application Error Records of Application %s Of Company %s  ',reqId,Company);
+            DbConn.ApplicationErrors.find({where:[{CompanyId:Company}]}).complete(function(errAppErr,resAppErr)
             {
-                if(errVE)
+                if(errAppErr)
                 {
-                    logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationByCompany] - [%s] - [PGSQL] -  Error occurred while searching All Application Error Records Of Company %s  ',reqId,Company,err);
-                    callback(errVE,undefined);
+                    logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationByCompany] - [%s] - [PGSQL] -  Error occurred while searching All Application Error Records Of Company %s  ',reqId,Company,errAppErr);
+                    callback(errAppErr,undefined);
                 }
                 else
                 {
-                    logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationByCompany] - [%s] - [PGSQL] -  Successfully completed : searching All Application Error Records Of Company %s  ',reqId,Company);
-                    callback(undefined,JSON.stringify(ErrObj));
+                    if(resAppErr)
+                    {
+                        logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationByCompany] - [%s] - [PGSQL] -  Error Records  found Of Company %s  ',reqId,Company);
+                        callback(undefined,resAppErr);
+                    }else
+                    {
+                        logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationByCompany] - [%s] - [PGSQL] - No error Records found for Company %s ',reqId,Company);
+                        callback(undefined,resAppErr);
+                    }
+
                 }
             });
         }
         catch(ex)
         {
-            logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationByCompany] - [%s] -  Exception occurred when starting  searching All Application Error Records Of Company %s process ',reqId,Company,err);
+            logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationByCompany] - [%s] -  Exception occurred when starting  searching All Application Error Records Of Company %s process ',reqId,Company,ex);
             callback(ex,undefined);
         }
 

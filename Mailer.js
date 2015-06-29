@@ -36,11 +36,9 @@ function AlertSender(To,Subject,body,reqId,callback)
 
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
-                //console.log(error);
                 logger.error('[DVP-HTTPProgrammingMonitorAPI.AlertSender] - [%s] - [MAIL] - Mail sending failed %s :  ',reqId,error);
                 callback(err, undefined);
             } else {
-                //console.log('Message sent: ' + info.response);
                 logger.debug('[DVP-HTTPProgrammingMonitorAPI.AlertSender] - [%s] - [MAIL] - Mail sending succeeded %s :  ',reqId,info.response);
                 callback(undefined, info.response);
             }

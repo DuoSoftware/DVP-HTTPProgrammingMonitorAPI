@@ -26,8 +26,6 @@ var DataError='SYS:HTTPPROGRAMMING:DATAERROR';
 var HttpError='SYS:HTTPPROGRAMMING:HTTPERROR';
 
 redisClient.psubscribe("SYS:HTTPPROGRAMMING:*");
-//redisClient.subscribe(DataError);
-//redisClient.subscribe(HttpError);
 
 /////////////////////////////////////////////////////////////////////
 var server = restify.createServer();
@@ -81,8 +79,8 @@ redisClient.on('pmessage', function (pattern,MsgTyp, message) {
         {
             if(err)
             {
-                //console.error(err);
-                //logger.error('[DVP-HTTPProgrammingMonitorAPI] - [%s]  - Redis client started ',reqId);
+                console.error(err);
+                logger.error('[DVP-HTTPProgrammingMonitorAPI] - [%s]  - Redis client starting error ',reqId,err);
             }
             else
             {
@@ -518,7 +516,7 @@ server.del('/API/developerinfo/'+version+'/:account/:number', function rm(req, r
 
 //////////////////////////////////////////////////////Get Error Records of Application////////////////////////////////
 //server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRecordsOfApplication/:AppID/:Company/:Tenent',function(req,res,next)
-server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/ErrorRecordsOfApplication/:AppID/:Company/:Tenant',function(req,res,next)
+server.get('DVP/API/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/ErrorRecordsOfApplication/:AppID',function(req,res,next)
 {
     var reqId='';
 
@@ -530,11 +528,15 @@ server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/ErrorRecordsO
     {
 
     }
-    logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplication] - [%s] - [HTTP]  - Request received -  Data - Application : %s of Company : %s and Tenant : %s',reqId,req.params.AppID,req.params.Company,req.params.Tenant);
+
+
+    var Company=1;
+    var Tenant=1;
+    logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplication] - [%s] - [HTTP]  - Request received -  Data - Application : %s of Company : %s and Tenant : %s',reqId,req.params.AppID,Company,Tenant);
 
     try
     {
-        ErrorMonitor.GetAllErrorRecordsOfApplication(req.params.AppID, req.params.Company, req.params.Tenent, reqId, function (err, Rec) {
+        ErrorMonitor.GetAllErrorRecordsOfApplication(req.params.AppID, Company, Tenant, reqId, function (err, Rec) {
             if (err) {
                 var jsonString = messageFormatter.FormatMessage(err, "ERROR/EXCEPTION", false, undefined);
                 logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplication] - [%s] - Request response : %s ', reqId, jsonString);
@@ -549,7 +551,7 @@ server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/ErrorRecordsO
     }
     catch(ex)
     {
-        logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplication] - [%s] - [HTTP]  - Exception in Request  -  Data - Application : %s of Company : %s and Tenant : %s',reqId,req.params.AppID,req.params.Company,req.params.Tenant,ex);
+        logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplication] - [%s] - [HTTP]  - Exception in Request  -  Data - Application : %s of Company : %s and Tenant : %s',reqId,req.params.AppID,Company,Tenant,ex);
         var jsonString = messageFormatter.FormatMessage(ex, "EXCEPTION", false, undefined);
         logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplication] - [%s] - Request response : %s ',reqId,jsonString);
         res.end(jsonString);
@@ -560,7 +562,7 @@ server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/ErrorRecordsO
 
 //////////////////////////////////////////////////////Get Error Records of Application by Error Code////////////////////////////////
 
-server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/ErrorRecordsOfApplication/:AppID/ByErrorCode/:ECode/:Company/:Tenent',function(req,res,next)
+server.get('DVP/API/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/ErrorRecordsOfApplication/:AppID/ByErrorCode/:ECode',function(req,res,next)
 {
     var reqId='';
 
@@ -572,11 +574,14 @@ server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/ErrorRecordsO
     {
 
     }
-    logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationByErrorCode] - [%s] - [HTTP]  - Request received -  Data - Application : %s of Company : %s and Tenant : %s and ErrorCode : %s',reqId,req.params.AppID,req.params.Company,req.params.Tenant,req.params.ECode);
+
+    var Company=1;
+    var Tenant=1;
+    logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationByErrorCode] - [%s] - [HTTP]  - Request received -  Data - Application : %s of Company : %s and Tenant : %s and ErrorCode : %s',reqId,req.params.AppID,Company,Tenant,req.params.ECode);
 
     try
     {
-        ErrorMonitor.GetAllErrorRecordsOfApplicationByErrorCode(req.params.AppID, req.params.ECode, req.params.Company, req.params.Tenent, function (err, Rec) {
+        ErrorMonitor.GetAllErrorRecordsOfApplicationByErrorCode(req.params.AppID, req.params.ECode, Company,Tenent, function (err, Rec) {
             if (err) {
                 var jsonString = messageFormatter.FormatMessage(err, "ERROR/EXCEPTION", false, undefined);
                 logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationByErrorCode] - [%s] - Request response : %s ', reqId, jsonString);
@@ -591,7 +596,7 @@ server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/ErrorRecordsO
     }
     catch(ex)
     {
-        logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationByErrorCode] - [%s] - [HTTP]  - Exception occurred when starting service : GetAllErrorRecordsOfApplicationByErrorCode -  Data - Application : %s of Company : %s and Tenant : %s and ErrorCode : %s',reqId,req.params.AppID,req.params.Company,req.params.Tenant,req.params.ECode,ex);
+        logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationByErrorCode] - [%s] - [HTTP]  - Exception occurred when starting service : GetAllErrorRecordsOfApplicationByErrorCode -  Data - Application : %s of Company : %s and Tenant : %s and ErrorCode : %s',reqId,req.params.AppID,Company,Tenant,req.params.ECode,ex);
         var jsonString = messageFormatter.FormatMessage(ex, "EXCEPTION", false, undefined);
         logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationByErrorCode] - [%s] - Request response : %s ', reqId, jsonString);
         res.end(jsonString);
@@ -603,7 +608,7 @@ server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/ErrorRecordsO
 //////////////////////////////////////////////////////Get Error Records of Application by Company////////////////////////////////
 
 //server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRecordsOfApplicationByCompany/:AppID/:Company',function(req,res,next)
-server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/ErrorRecordsOfApplications/:AppID/ByCompany/:Company',function(req,res,next)
+server.get('DVP/API/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/ErrorRecordsOfApplicationsOfCompany/:Company',function(req,res,next)
 {
     var reqId='';
 
@@ -616,27 +621,27 @@ server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/ErrorRecordsO
 
     }
     try {
-        logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationsByCompany] - [%s] - [HTTP]  - Request received -  Data - Application : %s of Company : %s and Tenant : %s and ErrorCode : %s',reqId,req.params.AppID,req.params.Company,req.params.Tenant,req.params.ECode);
+        logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationsOfCompany] - [%s] - [HTTP]  - Request received -  Data - Application : %s of Company : %s and Tenant : %s and ErrorCode : %s',reqId,req.params.AppID,req.params.Company,req.params.Tenant,req.params.ECode);
         ErrorMonitor.GetAllErrorRecordsOfApplicationByCompany(req.params.Company,reqId, function (err, Rec) {
             if (err)
             {
                 var jsonString = messageFormatter.FormatMessage(err, "ERROR/EXCEPTION", false, undefined);
-                logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationsByCompany] - [%s] - Request response : %s ', reqId, jsonString);
+                logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationsOfCompany] - [%s] - Request response : %s ', reqId, jsonString);
                 res.end(jsonString);
             }
             else {
 
                 var jsonString = messageFormatter.FormatMessage(undefined, "SUCCESS", true, Rec);
-                logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationsByCompany] - [%s] - Request response : %s ', reqId, jsonString);
+                logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationsOfCompany] - [%s] - Request response : %s ', reqId, jsonString);
                 res.end(jsonString);
             }
         });
     }
     catch(ex)
     {
-        logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationsByCompany] - [%s] - [HTTP]  - Exception occurred when starting service : GetAllErrorRecordsOfApplicationByErrorCode -  Data -  Company : %s ',reqId,req.params.Company,ex);
+        logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationsOfCompany] - [%s] - [HTTP]  - Exception occurred when starting service : GetAllErrorRecordsOfApplicationByErrorCode -  Data -  Company : %s ',reqId,req.params.Company,ex);
         var jsonString = messageFormatter.FormatMessage(ex, "EXCEPTION", false, undefined);
-        logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationsByCompany] - [%s] - Request response : %s ', reqId, jsonString);
+        logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllErrorRecordsOfApplicationsOfCompany] - [%s] - Request response : %s ', reqId, jsonString);
         res.end(jsonString);
     }
     return next();
@@ -646,7 +651,7 @@ server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/ErrorRecordsO
 //////////////////////////////////////////////////////Get All VoiceApp Activities By SessionID////////////////////////////////
 
 //server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllErrorRecordsOfApplicationByCompany/:Company/:Tenent/:SID',function(req,res,next)
-server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/VoiceAppActivitiesBySessionID/:SID/:Company/:Tenant',function(req,res,next)
+server.get('DVP/API/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/VoiceAppActivitiesBySessionID/:SID',function(req,res,next)
 {
     var reqId='';
 
@@ -658,10 +663,15 @@ server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/VoiceAppActiv
     {
 
     }
+    var Company=1;
+    var Tenant=1;
     try
     {
-        logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllVoiceAppActivitiesBySessionID] - [%s] - [HTTP]  - Request received -  Data - Application : %s of Company : %s and Tenant : %s and Session ID : %s',reqId,req.params.AppID,req.params.Company,req.params.Tenant,req.params.SID);
-        VoiceActivityFlow.GetAllVoiceAppActivitiesBySessionID(req.params.Company, req.params.Tenent, req.params.SID,reqId,function (err, Rec) {
+
+
+
+        logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllVoiceAppActivitiesBySessionID] - [%s] - [HTTP]  - Request received -  Data - Company : %s and Tenant : %s and Session ID : %s',reqId,Company,Tenant,req.params.SID);
+        VoiceActivityFlow.GetAllVoiceAppActivitiesBySessionID(Company, Tenent, req.params.SID,reqId,function (err, Rec) {
             if (err)
             {
 
@@ -678,7 +688,7 @@ server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/VoiceAppActiv
     }
     catch(ex)
     {
-        logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllVoiceAppActivitiesBySessionID] - [%s] - [HTTP]  - Exception occurred when starting service : GetAllVoiceAppActivitiesBySessionID -  Data -  Company : %s Tenant : %s SessionID : %s',reqId,req.params.Company,req.params.Tenant,req.params.SID,ex);
+        logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllVoiceAppActivitiesBySessionID] - [%s] - [HTTP]  - Exception occurred when starting service : GetAllVoiceAppActivitiesBySessionID -  Data -  Company : %s Tenant : %s SessionID : %s',reqId,Company,Tenant,req.params.SID,ex);
         var jsonString = messageFormatter.FormatMessage(ex, "EXCEPTION", false, undefined);
         logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllVoiceAppActivitiesBySessionID] - [%s] - Request response : %s ', reqId, jsonString);
         res.end(jsonString);
@@ -689,7 +699,7 @@ server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/VoiceAppActiv
 //////////////////////////////////////////////////////Get All VoiceApp Activities By EventCatagory////////////////////////////////
 
 //server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/GetAllVoiceAppActivitiesByEventCatagory/:Company/:Tenent/:ECAT',function(req,res,next)
-server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/VoiceAppActivitiesByEventCatagory/:ECAT/:Company/:Tenant',function(req,res,next)
+server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/VoiceAppActivitiesByEventCatagory/:ECAT',function(req,res,next)
 {
     var reqId='';
 
@@ -701,9 +711,11 @@ server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/VoiceAppActiv
     {
 
     }
+    var Company=1;
+    var Tenant=1;
     try {
-        logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllVoiceAppActivitiesByEventCatagory] - [%s] - [HTTP]  - Request received -  Data - Application : %s of Company : %s and Tenant : %s and Catagory : %s', reqId, req.params.AppID, req.params.Company, req.params.Tenant, req.params.ECAT);
-        VoiceActivityFlow.GetAllVoiceAppActivitiesByEventCatagory(req.params.Company, req.params.Tenent, req.params.ECAT,reqId,function (err, Rec) {
+        logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllVoiceAppActivitiesByEventCatagory] - [%s] - [HTTP]  - Request received -  Data - Application : %s of Company : %s and Tenant : %s and Catagory : %s', reqId, req.params.AppID,Company, Tenant, req.params.ECAT);
+        VoiceActivityFlow.GetAllVoiceAppActivitiesByEventCatagory(Company,Tenant, req.params.ECAT,reqId,function (err, Rec) {
             if (err)
             {
                 var jsonString = messageFormatter.FormatMessage(err, "ERROR/EXCEPTION", false, undefined);
@@ -719,7 +731,7 @@ server.get('DVP/'+version+'/HTTPProgrammingMonitorAPI/ErrorMonitor/VoiceAppActiv
     }
     catch(ex)
     {
-        logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllVoiceAppActivitiesByEventCatagory] - [%s] - [HTTP]  - Exception occurred when starting service : GetAllVoiceAppActivitiesBySessionID -  Data -  Company : %s Tenant : %s catagory : %s',reqId,req.params.Company,req.params.Tenant,req.params.ECAT,ex);
+        logger.error('[DVP-HTTPProgrammingMonitorAPI.GetAllVoiceAppActivitiesByEventCatagory] - [%s] - [HTTP]  - Exception occurred when starting service : GetAllVoiceAppActivitiesBySessionID -  Data -  Company : %s Tenant : %s catagory : %s',reqId,Company,Tenant,req.params.ECAT,ex);
         var jsonString = messageFormatter.FormatMessage(ex, "EXCEPTION", false, undefined);
         logger.debug('[DVP-HTTPProgrammingMonitorAPI.GetAllVoiceAppActivitiesByEventCatagory] - [%s] - Request response : %s ', reqId, jsonString);
         res.end(jsonString);
