@@ -12,36 +12,45 @@ var logger = require('DVP-Common/LogHandler/CommonLogHandler.js').logger;
 
 function ApplicationActivitiesBySessionID(Company,Tenant,SID,reqId,callback)
 {
-    try
+    if(SID && !isNaN(SID))
     {
-        logger.debug('[DVP-HTTPProgrammingMonitorAPI.ApplicationActivitiesBySessionID] - [%s] -  Searching Application activities by SessionID %s - Company : %s and Tenant : %s',reqId,SID,Company,Tenant);
-        DbConn.DVPEvent.findAll({where:[{CompanyId:Company},{EventClass:config.Types.Class},{TenantId:Tenent},{EventData:SID},{EventType:config.Types.Type}]}).complete(function (errEvent, resEvent) {
+        try
+        {
+            logger.debug('[DVP-HTTPProgrammingMonitorAPI.ApplicationActivitiesBySessionID] - [%s] -  Searching Application activities by SessionID %s - Company : %s and Tenant : %s',reqId,SID,Company,Tenant);
+            DbConn.DVPEvent.findAll({where:[{CompanyId:Company},{EventClass:config.Types.Class},{TenantId:Tenent},{EventData:SID},{EventType:config.Types.Type}]}).complete(function (errEvent, resEvent) {
 
-            if(errEvent)
-            {
-                logger.error('[DVP-HTTPProgrammingMonitorAPI.ApplicationActivitiesBySessionID] - [%s] - [PGSQL] - Error occurred while searching Application Activities of SessionId %s ',reqId,SID,errEvent);
-                callback(errEvent,undefined);
-            }
-            else
-            {
-                if(resEvent)
+                if(errEvent)
                 {
-                    logger.debug('[DVP-HTTPProgrammingMonitorAPI.ApplicationActivitiesBySessionID] - [%s] - [PGSQL] - Records found for session ID %s ',reqId,SID);
-                    callback(undefined,resEvent);
-                }else
-                {
-                    logger.debug('[DVP-HTTPProgrammingMonitorAPI.ApplicationActivitiesBySessionID] - [%s] - [PGSQL] - No Records found for session ID %s ',reqId,SID);
-                    callback(new Error('No Records found for session ID'),undefined);
+                    logger.error('[DVP-HTTPProgrammingMonitorAPI.ApplicationActivitiesBySessionID] - [%s] - [PGSQL] - Error occurred while searching Application Activities of SessionId %s ',reqId,SID,errEvent);
+                    callback(errEvent,undefined);
                 }
+                else
+                {
+                    if(resEvent.length>0)
+                    {
+                        logger.debug('[DVP-HTTPProgrammingMonitorAPI.ApplicationActivitiesBySessionID] - [%s] - [PGSQL] - Records found for session ID %s ',reqId,SID);
+                        callback(undefined,resEvent);
+                    }else
+                    {
+                        logger.debug('[DVP-HTTPProgrammingMonitorAPI.ApplicationActivitiesBySessionID] - [%s] - [PGSQL] - No Records found for session ID %s ',reqId,SID);
+                        callback(new Error('No Records found for session ID'),undefined);
+                    }
 
-            }
-        })
+                }
+            })
+        }
+        catch(ex)
+        {
+            logger.error('[DVP-HTTPProgrammingMonitorAPI.ApplicationActivitiesBySessionID] - [%s] - [PGSQL] - Exception occurred while searching activities of sessionID %s ',reqId,SID,ex);
+            callback(ex,undefined);
+        }
     }
-    catch(ex)
+    else
     {
-        logger.error('[DVP-HTTPProgrammingMonitorAPI.ApplicationActivitiesBySessionID] - [%s] - [PGSQL] - Exception occurred while searching activities of sessionID %s ',reqId,SID,ex);
-        callback(ex,undefined);
+        logger.error('[DVP-HTTPProgrammingMonitorAPI.ApplicationActivitiesBySessionID] - [%s] -  SessionID is undefined %s ',reqId,SID);
+        callback(new Error("SessionID is undefined "+SID),undefined);
     }
+
 }
 
 function ApplicationActivitiesByCatagory(Company,Tenant,Ecat,reqId,callback)
