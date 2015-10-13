@@ -3,7 +3,7 @@ var restify = require('restify');
 var redis = require('redis');
 var config = require('config');
 var Mailer=require('./Mailer.js');
-var DbConn = require('DVP-DBModels');
+var DbConn = require('dvp-dbmodels');
 
 var port = config.Host.port || 3000;
 var version=config.Host.version;
@@ -12,7 +12,7 @@ var ip=config.Redis.ip;
 
 var ErrorMonitor=require('./ErrorMonitor.js');
 var VoiceActivityFlow=require('./VoiceActivityFlow.js');
-var logger = require('DVP-Common/LogHandler/CommonLogHandler.js').logger;
+var logger = require('dvp-common/LogHandler/CommonLogHandler.js').logger;
 var uuid = require('node-uuid');
 
 
