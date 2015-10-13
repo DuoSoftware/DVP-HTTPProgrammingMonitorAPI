@@ -3,10 +3,10 @@
  */
 var stringify=require('stringify');
 var redis=require('redis');
-var DbConn = require('DVP-DBModels');
+var DbConn = require('dvp-dbmodels');
 var config = require('config');
 var Mailer=require('./Mailer.js');
-var logger = require('DVP-Common/LogHandler/CommonLogHandler.js').logger;
+var logger = require('dvp-common/LogHandler/CommonLogHandler.js').logger;
 
 var redisClient = redis.createClient(ip,port);
 client.on("error", function (err) {
