@@ -4,9 +4,9 @@
 
 var restify = require('restify');
 var stringify=require('stringify');
-var DbConn = require('DVP-DBModels');
+var DbConn = require('dvp-dbmodels');
 var config=require('config');
-var logger = require('DVP-Common/LogHandler/CommonLogHandler.js').logger;
+var logger = require('dvp-common/LogHandler/CommonLogHandler.js').logger;
 
 
 
