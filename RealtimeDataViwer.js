@@ -11,7 +11,7 @@ var Rport=config.Redis.port;
 var ip=config.Redis.ip;
 var port = config.Host.port || 3000;
 var client = redis.createClient(Rport,ip);
-var logger = require('DVP-Common/LogHandler/CommonLogHandler.js').logger;
+var logger = require('dvp-common/LogHandler/CommonLogHandler.js').logger;
 client.on("error", function (err) {
     console.log("Error " + err);
 
