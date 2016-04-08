@@ -9,10 +9,16 @@ var Mailer=require('./Mailer.js');
 var logger = require('dvp-common/LogHandler/CommonLogHandler.js').logger;
 
 var redisClient = redis.createClient(ip,port);
-client.on("error", function (err) {
+redisClient.auth(config.Security.password, function (error) {
+
+    console.log("Error in Redis Auth :" + error);
+});
+redisClient.on("error", function (err) {
     console.log("Error " + err);
 
+
 });
+
 
 var FileUploaded='SYS:HTTPPROGRAMMING:FILEUPLOADED';
 var DataError='SYS:HTTPPROGRAMMING:DATAERROR';

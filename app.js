@@ -17,8 +17,16 @@ var uuid = require('node-uuid');
 
 
 var redisClient = redis.createClient(config.Redis.port,config.Redis.ip);
-redisClient.on('error',function(err){
-    console.log('Error '.red, err);
+
+redisClient.auth(config.Security.password, function (error) {
+
+    console.log("Error in Redis Auth :" + error);
+});
+
+redisClient.on("error", function (err) {
+    console.log("Error " + err);
+
+
 });
 
 var FileUploaded='SYS:HTTPPROGRAMMING:FILEUPLOADED';
