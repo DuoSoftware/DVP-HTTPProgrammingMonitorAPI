@@ -7,7 +7,7 @@
 
 #EXPOSE 8813
 
-FROM node:argon
+FROM node:5.10.0
 RUN git clone git://github.com/DuoSoftware/DVP-HTTPProgrammingMonitorAPI.git /usr/local/src/httpprogrammingmonitorapi
 RUN cd /usr/local/src/httpprogrammingmonitorapi;
 WORKDIR /usr/local/src/httpprogrammingmonitorapi
