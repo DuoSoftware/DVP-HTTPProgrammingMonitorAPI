@@ -767,7 +767,7 @@ function GetErrorCount(AppID,reqId,callback)
     }
     catch(ex)
     {
-        logger.debug('[DVP-HTTPProgrammingMonitorAPI.ErrorCount] - [%s]  - Exception in method starting : GetErrorCount of Application %s',reqId,AppID,JSON.stringify(ErrObj),ex);
+        logger.debug('[DVP-HTTPProgrammingMonitorAPI.ErrorCount] - [%s]  - Exception in method starting : GetErrorCount of Application %s',reqId,AppID);
         callback(ex,undefined);
     }
 }
