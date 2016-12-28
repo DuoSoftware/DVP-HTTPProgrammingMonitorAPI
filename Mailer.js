@@ -4,8 +4,8 @@
 
 var restify = require('restify');
 var stringify=require('stringify');
-var DbConn = require('DVP-DBModels');
-var logger = require('DVP-Common/LogHandler/CommonLogHandler.js').logger;
+var DbConn = require('dvp-dbmodels');
+var logger = require('dvp-common/LogHandler/CommonLogHandler.js').logger;
 
 var nodemailer = require('nodemailer');
 
@@ -15,7 +15,7 @@ var transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
         user: 'pawan@duosoftware.com',
-        pass: 'my@0112257699aps'
+        pass: 'apss'
     }
 });
 

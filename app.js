@@ -3,7 +3,7 @@ var restify = require('restify');
 var redis = require('redis');
 var config = require('config');
 var Mailer=require('./Mailer.js');
-var DbConn = require('DVP-DBModels');
+var DbConn = require('dvp-dbmodels');
 
 var port = config.Host.port || 3000;
 var version=config.Host.version;
@@ -12,13 +12,21 @@ var ip=config.Redis.ip;
 
 var ErrorMonitor=require('./ErrorMonitor.js');
 var VoiceActivityFlow=require('./VoiceActivityFlow.js');
-var logger = require('DVP-Common/LogHandler/CommonLogHandler.js').logger;
+var logger = require('dvp-common/LogHandler/CommonLogHandler.js').logger;
 var uuid = require('node-uuid');
 
 
 var redisClient = redis.createClient(config.Redis.port,config.Redis.ip);
-redisClient.on('error',function(err){
-    console.log('Error '.red, err);
+
+redisClient.auth(config.Security.password, function (error) {
+
+    console.log("Error in Redis Auth :" + error);
+});
+
+redisClient.on("error", function (err) {
+    console.log("Error " + err);
+
+
 });
 
 var FileUploaded='SYS:HTTPPROGRAMMING:FILEUPLOADED';
@@ -759,7 +767,7 @@ function GetErrorCount(AppID,reqId,callback)
     }
     catch(ex)
     {
-        logger.debug('[DVP-HTTPProgrammingMonitorAPI.ErrorCount] - [%s]  - Exception in method starting : GetErrorCount of Application %s',reqId,AppID,JSON.stringify(ErrObj),ex);
+        logger.debug('[DVP-HTTPProgrammingMonitorAPI.ErrorCount] - [%s]  - Exception in method starting : GetErrorCount of Application %s',reqId,AppID);
         callback(ex,undefined);
     }
 }
