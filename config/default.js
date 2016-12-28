@@ -14,15 +14,11 @@ module.exports = {
     "Class":{
         "EventClass":"APP"
     },
-
-
-
-
-    "Redis":
-    {
-        "ip": "192.168.0.47",
-        "port": "6379"
-
+    "Redis" : {
+        "ip": '45.55.142.207',
+        "port": 6389,
+        "user": "",
+        "password": "DuoS123"
     },
 
     "Host":
@@ -30,6 +26,14 @@ module.exports = {
         "domain": "0.0.0.0",
         "port": "8082",
         "version":"6.0"
+    },
+    "Security":
+    {
+        "ip": "45.55.142.207",
+        "port": "6389",
+        "user": "",
+        "password": "DuoS123"
+
     }
 
 };
