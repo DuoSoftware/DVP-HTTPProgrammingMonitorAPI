@@ -23,7 +23,7 @@
     "node-uuid": "^1.4.7",
     "nodemailer": "^2.3.0",
     "redis": "^2.6.0-1",
-    "restify": "^4.0.4",
+    "restify": "^4.0.3",
     "stringify": "^5.1.0"
   }
 }
